@@ -9,4 +9,5 @@
 .variable-units {
   color: navy;
   display: inherit;
-  font-size: 14px; }
+  font-size: 24px;
+  padding-left: 5px; }

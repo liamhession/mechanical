@@ -23,7 +23,13 @@ var movement = function(obj) {
         obj.velocity.vy += forces[forceName].y / m;
     }
     
-    var anim = Raphael.animation({"cx": x + vx, "cy": y + vy}, 100, "linear", function() { this.animate(movement(this)); });
+    var anim = Raphael.animation({"cx": x + vx, "cy": y + vy}, 100, "linear", function() { 
+        for (var idx in this.dispFns) {
+            if (this.dispFns[idx] != undefined)
+                this.dispFns[idx](this);
+        }
+        this.animate(movement(this)); 
+        });
     return anim;
 };
 
@@ -41,5 +47,38 @@ Raphael.fn.ball = function(x, y, radius, vx, vy) {
     ball.velocity = {"vx": vx, "vy": vy};
     ball.forces = {"g": {"x": 0, "y": -2}};
     ball.animate(movement(ball));
+    ball.dispFns = [];
     return ball;
 };
+
+// Quantity Display - 
+//   quantity: the property of the object that we want displayed somewhere
+//   dispDiv: the ID of the div where that should be shown
+Raphael.el.addDisplayFn = function(quantity, dispDiv) {
+    switch(quantity) {
+        case 'KE': this.dispFns.push(displayKE(dispDiv));
+        case 'PE': this.dispFns.push(displayPE(dispDiv));
+    }
+};
+
+
+// Kinetic Energy Display - 
+//   dispDiv: the ID of the div where the KE should be displayed, hardcoded into returned fn 
+displayKE = function(dispDiv) {
+    var returnFn = function(obj) {
+        var m = obj.mass;
+        var vx = obj.velocity.vx;
+        var vy = obj.velocity.vy;
+        
+        var netV = Math.sqrt(vx*vx + vy*vy);
+        
+        var kineticEnergy = 0.5 * m * netV * netV;
+
+        $('#'+dispDiv).html((kineticEnergy+'').substring(0, 5));
+    };
+    return returnFn;
+};
+
+displayPE = function(dispDiv) {
+    return;
+}
