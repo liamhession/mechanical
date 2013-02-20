@@ -1,0 +1,12 @@
+.variable-display {
+  display: inline-block; }
+
+.variable-value {
+  color: lime;
+  display: inherit;
+  font-size: 50px; }
+
+.variable-units {
+  color: navy;
+  display: inherit;
+  font-size: 14px; }
