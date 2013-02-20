@@ -56,9 +56,10 @@ Raphael.fn.ball = function(x, y, radius, vx, vy) {
 //   dispDiv: the ID of the div where that should be shown
 Raphael.el.addDisplayFn = function(quantity, dispDiv) {
     switch(quantity) {
-        case 'KE': this.dispFns.push(displayKE(dispDiv));
-        case 'PE': this.dispFns.push(displayPE(dispDiv));
+        case 'KE': this.dispFns.push(displayKE(dispDiv)); break;
+        case 'PE': this.dispFns.push(displayPE(dispDiv)); break;
     }
+    console.log(this.dispFns);
 };
 
 
@@ -74,11 +75,19 @@ displayKE = function(dispDiv) {
         
         var kineticEnergy = 0.5 * m * netV * netV;
 
-        $('#'+dispDiv).html((kineticEnergy+'').substring(0, 5));
+        $('#'+dispDiv).html(kineticEnergy.toString().substring(0, 6));
     };
     return returnFn;
 };
 
 displayPE = function(dispDiv) {
-    return;
-}
+    var returnFn = function(obj) {
+        var m = obj.mass;
+        var h = obj.position.y;
+
+        var potentialEnergy = m * 9.81 * h;
+
+        $('#'+dispDiv).html(potentialEnergy.toString().substring(0, 6));
+    };
+    return returnFn;
+};
