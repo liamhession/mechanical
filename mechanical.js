@@ -59,7 +59,6 @@ Raphael.el.addDisplayFn = function(quantity, dispDiv) {
         case 'KE': this.dispFns.push(displayKE(dispDiv)); break;
         case 'PE': this.dispFns.push(displayPE(dispDiv)); break;
     }
-    console.log(this.dispFns);
 };
 
 
